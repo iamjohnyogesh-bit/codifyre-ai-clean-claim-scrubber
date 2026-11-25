@@ -1,0 +1,2 @@
+# Codifyre AI - Clean Claim Scrubber
+# No third-party dependencies: everything runs on the Python 3.9+ standard library.
