@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codifyre AI - Clean Claim Scrubber Dashboard</title>
+<style>
+:root { --bg:#0d1117; --card:#161b22; --border:#30363d; --text:#e6edf3;
+        --muted:#8b949e; --accent:#2f81f7; --good:#3fb950; --warn:#d29922; --bad:#f85149;
+        --track:#21262d; }
+body.light { --bg:#f6f8fa; --card:#ffffff; --border:#d0d7de; --text:#1f2328;
+        --muted:#57606a; --accent:#0969da; --good:#1a7f37; --warn:#9a6700; --bad:#cf222e;
+        --track:#eaeef2; }
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:var(--bg); color:var(--text); font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; padding:32px; transition:background .2s,color .2s; }
+.wrap { max-width:1100px; margin:0 auto; }
+header { display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:16px; margin-bottom:24px; }
+.header-right { display:flex; align-items:center; gap:14px; }
+h1 { font-size:24px; } h1 span { color:var(--accent); }
+.date { color:var(--muted); font-size:13px; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:14px; margin-bottom:28px; }
+.card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:18px; }
+.card .label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+.card .value { font-size:28px; font-weight:700; margin-top:6px; }
+.card .sub { color:var(--muted); font-size:12px; margin-top:4px; }
+.good { color:var(--good); } .bad { color:var(--bad); } .warn { color:var(--warn); }
+section { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:20px; }
+h2 { font-size:16px; margin-bottom:16px; }
+.bar-row { display:grid; grid-template-columns:190px 1fr 90px; align-items:center; gap:12px; margin-bottom:10px; font-size:13px; }
+.bar-row .name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.bar-track { background:var(--track); border-radius:5px; height:20px; overflow:hidden; }
+.bar-fill { background:var(--accent); height:100%; border-radius:5px; }
+.bar-fill.err { background:var(--bad); }
+.bar-row .amt { text-align:right; color:var(--muted); }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { text-align:left; color:var(--muted); font-weight:600; padding:8px 10px; border-bottom:1px solid var(--border); }
+td { padding:8px 10px; border-bottom:1px solid var(--track); }
+tr:last-child td { border-bottom:none; }
+.tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; }
+.tag.e { background:rgba(248,81,73,.15); color:var(--bad); }
+.tag.w { background:rgba(210,153,34,.15); color:var(--warn); }
+.cols { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+@media (max-width:800px){ .cols { grid-template-columns:1fr; } }
+footer { color:var(--muted); font-size:12px; text-align:center; margin-top:24px; }
+.theme-btn { background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:8px;
+             padding:7px 14px; font-size:13px; cursor:pointer; }
+.theme-btn:hover { border-color:var(--accent); }
+</style></head><body><div class="wrap">
+<header><h1><span>Codifyre AI</span> &middot; Clean Claim Scrubber</h1>
+<div class="header-right"><div class="date">Generated 2026-11-25</div>
+<button id="theme-toggle" class="theme-btn">&#9728; Light</button></div></header>
+<div class="cards"><div class="card"><div class="label">Claims scrubbed</div><div class="value ">85</div><div class="sub"></div></div>
+<div class="card"><div class="label">Clean claim rate</div><div class="value good">65.9%</div><div class="sub">56 of 85 clean</div></div>
+<div class="card"><div class="label">Flagged claims</div><div class="value warn">29</div><div class="sub"></div></div>
+<div class="card"><div class="label">Errors / warnings</div><div class="value bad">23 / 7</div><div class="sub"></div></div>
+<div class="card"><div class="label">Billed $ at risk</div><div class="value bad">$6,095.00</div><div class="sub">claims with errors</div></div></div>
+<div class="cols">
+<section><h2>Findings by rule</h2><div class="bar-row"><div class="name">Code format</div><div class="bar-track"><div class="bar-fill" style="width:100%"></div></div><div class="amt">4</div></div>
+<div class="bar-row"><div class="name">Duplicates</div><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div><div class="amt">3</div></div>
+<div class="bar-row"><div class="name">Bad dates</div><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div><div class="amt">3</div></div>
+<div class="bar-row"><div class="name">Timely filing</div><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div><div class="amt">3</div></div>
+<div class="bar-row"><div class="name">Missing required fields</div><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><div class="amt">2</div></div>
+<div class="bar-row"><div class="name">Invalid NPI</div><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><div class="amt">2</div></div>
+<div class="bar-row"><div class="name">Modifier issues</div><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><div class="amt">2</div></div>
+<div class="bar-row"><div class="name">Units</div><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><div class="amt">2</div></div>
+<div class="bar-row"><div class="name">LCD necessity</div><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><div class="amt">2</div></div>
+<div class="bar-row"><div class="name">ICD-10 exclusions</div><div class="bar-track"><div class="bar-fill" style="width:50%"></div></div><div class="amt">2</div></div>
+<div class="bar-row"><div class="name">POS/code mismatch</div><div class="bar-track"><div class="bar-fill" style="width:25%"></div></div><div class="amt">1</div></div>
+<div class="bar-row"><div class="name">Charges</div><div class="bar-track"><div class="bar-fill" style="width:25%"></div></div><div class="amt">1</div></div>
+<div class="bar-row"><div class="name">Sex-specific conflict</div><div class="bar-track"><div class="bar-fill" style="width:25%"></div></div><div class="amt">1</div></div>
+<div class="bar-row"><div class="name">Coordination of benefits</div><div class="bar-track"><div class="bar-fill" style="width:25%"></div></div><div class="amt">1</div></div>
+<div class="bar-row"><div class="name">Bundling conflicts</div><div class="bar-track"><div class="bar-fill" style="width:25%"></div></div><div class="amt">1</div></div></section>
+<section><h2>Error dollars by payer</h2><div class="bar-row"><div class="name">CGS Medicare</div><div class="bar-track"><div class="bar-fill err" style="width:100%"></div></div><div class="amt">$2,060.00</div></div>
+<div class="bar-row"><div class="name">Cigna</div><div class="bar-track"><div class="bar-fill err" style="width:57%"></div></div><div class="amt">$1,180.00</div></div>
+<div class="bar-row"><div class="name">Aetna</div><div class="bar-track"><div class="bar-fill err" style="width:50%"></div></div><div class="amt">$1,020.00</div></div>
+<div class="bar-row"><div class="name">UnitedHealthcare</div><div class="bar-track"><div class="bar-fill err" style="width:38%"></div></div><div class="amt">$780.00</div></div>
+<div class="bar-row"><div class="name">Medicare</div><div class="bar-track"><div class="bar-fill err" style="width:26%"></div></div><div class="amt">$535.00</div></div>
+<div class="bar-row"><div class="name">Humana</div><div class="bar-track"><div class="bar-fill err" style="width:18%"></div></div><div class="amt">$370.00</div></div>
+<div class="bar-row"><div class="name">Medicaid</div><div class="bar-track"><div class="bar-fill err" style="width:7%"></div></div><div class="amt">$150.00</div></div>
+<div class="bar-row"><div class="name">BCBS</div><div class="bar-track"><div class="bar-fill err" style="width:2%"></div></div><div class="amt">$0.00</div></div></section>
+</div>
+<section><h2>Flagged claims</h2>
+<table><tr><th>Claim</th><th>Payer</th><th>CPT</th><th>Billed</th><th>Severity</th><th>First finding</th></tr>
+<tr><td>CLM26004</td><td>CGS Medicare</td><td>97140</td><td>$340.00</td><td><span class="tag e">error</span></td><td>Duplicate line: patient/DOS/CPT repeats in this batch</td></tr>
+<tr><td>CLM26057</td><td>CGS Medicare</td><td>83036</td><td>$340.00</td><td><span class="tag e">error</span></td><td>Missing required field(s): subscriber ID</td></tr>
+<tr><td>CLM26058</td><td>Medicare</td><td>93000</td><td>$75.00</td><td><span class="tag e">error</span></td><td>Missing required field(s): diagnosis code (ICD-10-CM)</td></tr>
+<tr><td>CLM26059</td><td>Medicare</td><td>99214</td><td>$120.00</td><td><span class="tag e">error</span></td><td>Rendering NPI 1234567890 fails format/Luhn check</td></tr>
+<tr><td>CLM26060</td><td>Cigna</td><td>97140</td><td>$220.00</td><td><span class="tag e">error</span></td><td>Rendering NPI 12345 fails format/Luhn check</td></tr>
+<tr><td>CLM26061</td><td>CGS Medicare</td><td>99285</td><td>$480.00</td><td><span class="tag e">error</span></td><td>Date of service 2026-11-29 is in the future</td></tr>
+<tr><td>CLM26062</td><td>UnitedHealthcare</td><td>36415</td><td>$150.00</td><td><span class="tag e">error</span></td><td>Patient DOB 1980-05-10 is on/after DOS 1979-01-01</td></tr>
+<tr><td>CLM26063</td><td>Aetna</td><td>99203</td><td>$900.00</td><td><span class="tag e">error</span></td><td>Claim is 240 days old; Aetna timely filing limit is 180 days</td></tr>
+<tr><td>CLM26064</td><td>Cigna</td><td>93000</td><td>$75.00</td><td><span class="tag w">warning</span></td><td>20 days left before Cigna timely filing limit (180 days)</td></tr>
+<tr><td>CLM26065</td><td>UnitedHealthcare</td><td>84153</td><td>$480.00</td><td><span class="tag e">error</span></td><td>Place of service &#x27;99&#x27; is not a recognized CMS POS code</td></tr>
+<tr><td>CLM26066</td><td>Cigna</td><td>99X13</td><td>$480.00</td><td><span class="tag e">error</span></td><td>&#x27;99X13&#x27; is not a valid CPT/HCPCS format</td></tr>
+<tr><td>CLM26067</td><td>CGS Medicare</td><td>80053</td><td>$340.00</td><td><span class="tag w">warning</span></td><td>Diagnosis &#x27;M54&#x27; has only 3 characters - may require higher specificity</td></tr>
+<tr><td>CLM26068</td><td>Cigna</td><td>99396</td><td>$480.00</td><td><span class="tag e">error</span></td><td>Diagnosis &#x27;123&#x27; is not a valid ICD-10-CM format</td></tr>
+<tr><td>CLM26069</td><td>Medicaid</td><td>29881</td><td>$150.00</td><td><span class="tag e">error</span></td><td>CPT 29881 is on the CMS inpatient-only list but POS is 11</td></tr>
+<tr><td>CLM26070</td><td>Humana</td><td>83036</td><td>$900.00</td><td><span class="tag w">warning</span></td><td>Bilateral modifier 50 billed with units &gt; 1 - many payers want 1 unit x 150%</td></tr></table></section>
+<footer>Built by Codifyre AI &middot; github.com/iamjohnyogesh-bit/codifyre-ai-clean-claim-scrubber</footer>
+</div><script>
+(function(){
+  var b=document.body, btn=document.getElementById('theme-toggle');
+  function apply(t){ b.classList.toggle('light', t==='light');
+    btn.textContent = t==='light' ? '\u263E Dark' : '\u2600 Light'; }
+  var saved=null; try{ saved=localStorage.getItem('codifyre-theme'); }catch(e){}
+  apply(saved==='light' ? 'light' : 'dark');
+  btn.addEventListener('click', function(){
+    var next = b.classList.contains('light') ? 'dark' : 'light';
+    apply(next);
+    try{ localStorage.setItem('codifyre-theme', next); }catch(e){}
+  });
+})();
+</script></body></html>
